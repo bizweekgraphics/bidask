@@ -29,10 +29,27 @@ function addNewOffer() {
     .classed("offer", true)
     .classed(newOffer.side, true)
     .on("click", function() {
-      you.cash += (d3.select(this).classed("bid") ? 1 : -1) * d3.select(this).text();
-      console.log(you.cash);
-      d3.select(this).remove();
+      if(d3.select(this).classed("bid")) {
+        if(you.shares > 0) {
+          you.shares--;
+          you.cash += d3.select(this).text()*1;
+          d3.select(this).remove();
+          render();
+        }
+      } else {
+        if(you.cash >= d3.select(this).text()) {
+          you.cash -= d3.select(this).text()*1;
+          you.shares++;
+          d3.select(this).remove();
+          render();
+        }
+      }
     });
+}
+
+function render() {
+  d3.select("#cash").text(you.cash);
+  d3.select("#shares").text(you.shares);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
