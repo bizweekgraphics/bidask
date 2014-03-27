@@ -1,3 +1,40 @@
+
+function trader() {
+  this.cash = 100;
+  this.shares = 0;
+}
+
+function commodity() {
+  this.priceMean = 19.02;
+  this.priceStdev = 2;
+  this.volume = 2; //offers per second
+}
+
+// bid/ask constructor
+var orderBook = new Array();
+var orderBookDOM = d3.select("#order-book");
+function offer(commodity) {
+  this.side = Math.random() < 0.5 ? "bid" : "ask";
+	this.price = d3.random.normal(commodity.priceMean, commodity.priceStdev);
+}
+
+var you = new trader();
+var king = new commodity();
+var offerInterval = setInterval(addNewOffer, 1000/king.volume)
+
+function addNewOffer() {
+  var newOffer = new offer(king);
+  orderBookDOM.append("div")
+    .text(newOffer.price().toFixed(2))
+    .classed("offer", true)
+    .classed(newOffer.side, true)
+    .on("click", function() {
+      you.cash += (d3.select(this).classed("bid") ? 1 : -1) * d3.select(this).text();
+      console.log(you.cash);
+      d3.select(this).remove();
+    });
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // TEMPLATE FUNCTIONS ////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////

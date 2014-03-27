@@ -34,7 +34,7 @@ font-family:BWHaasHead75Bold
 font-family:BWHaasRegular
 -->
 
-<body class="full">
+<body>
 
   <div id="logo">
     <a href="http://www.businessweek.com/" class="ir" id="home_link">Bloomberg Businessweek</a>
@@ -45,23 +45,14 @@ font-family:BWHaasRegular
 
   <div class="clearfix"></div>
 
-  <h3 class="hed">Graphic title</h3>
+  <h3 class="hed">Bid/Ask Saga</h3>
   <p class="dek">This is dek, different from the dek you are at now. I am typing the sound of my dek and I repeating and repeating the dek dek dek TK sound of my speaking voice.</p>
 
-  <svg id="svg-canvas" class="fullscreen">
-    <defs>
-      <!-- arrowhead for arrows -->
-      <marker id = "arrowhead" viewBox = "-10 -10 20 20" refX = "0" refY = "0" markerWidth = "20" markerHeight = "20" stroke-width = "1" orient = "auto">
-        <polyline class="arrow" stroke-linejoin="bevel" points="-6.72,-6.749 0.54,0 -6.72,6.749 "/>
-      </marker>
-    </defs>
+  <h4><span style="font-family:BWHaasHead">Cash</span> $<span id="cash">100</span></h4>
+  <h4><span style="font-family:BWHaasHead">Shares</span> <span id="shares">0</span></h4>
 
-    <!-- DEMO DRAWINGS -->
-    <circle cx="240" cy="150" r="50" fill="#000000"/>
-    <rect x="400" y="500" width="50" height="50" fill="#000000"/>
-    <!-- END DEMO DRAWINGS -->
-
-  </svg>
+  <div id="order-book">
+  </div>
 
   <div class="data-credit">Graphic by Bloomberg Businessweek. Data: compiled by Bloomberg</div>
 
@@ -70,19 +61,6 @@ font-family:BWHaasRegular
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
-
-  <script>
-    //////////////////////////////////////////////////////////////////////////////////////////
-    // DEMO CODE // (remove at will) /////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////
-
-    // draw sample arrow from page element to cursor
-    var mouseArrow = drawArrow(d3.select("#svg-canvas"), d3.select("rect"), [300,300], 120, true);
-    $(document).on("mousemove", function(e) {
-      mouseArrow.remove();
-      mouseArrow = drawArrow(d3.select("#svg-canvas"), d3.select("rect"), [e.pageX,e.pageY], 20, true);
-    });
-  </script>
 
 </body>
 </html>
