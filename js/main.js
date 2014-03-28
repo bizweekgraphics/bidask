@@ -11,7 +11,6 @@ function commodity() {
 }
 
 // bid/ask constructor
-var orderBook = new Array();
 var orderBookDOM = d3.select("#order-book");
 function offer(commodity) {
   this.side = Math.random() < 0.5 ? "bid" : "ask";
