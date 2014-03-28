@@ -22,10 +22,15 @@ var king = new commodity();
 var offerInterval = setInterval(addNewOffer, 1000/king.volume)
 
 function addNewOffer() {
-  var newOffer = new offer(king);
+  if($(".offer").length > 10) {
+    clearInterval(offerInterval);
+    return;
+  }
 
+  var newOffer = new offer(king);
   offerTemplate = $("#offer-template").html();
-  $(_.template(offerTemplate,{d:newOffer})).appendTo("#order-book").on("click", takeOffer);
+  $(_.template(offerTemplate,{d:newOffer})).appendTo("#order-book");
+  $(".offer").drags();
 
 }
 
@@ -305,6 +310,7 @@ function getDateFromExcel(excelDate) {
             } else {
                 $(this).removeClass('active-handle').parent().removeClass('draggable');
             }
+            $(this).css({top: 0, left: 0});
         });
 
     }

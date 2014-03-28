@@ -226,6 +226,14 @@ button {
    ----------- BID/ASK -----------
    ------------------------------- */
 
+.offer-wrapper {
+  position: relative;
+}
+
+.draggable {
+  opacity: 0.5;
+}
+
 #order-book .offer {
   width: 100px;
   height: 100px;
@@ -259,7 +267,7 @@ button {
   color: #0f0;
 }
 .offer.ask {
-  background: white;
+  background: transparent;
   color: #f00;
 }
 
