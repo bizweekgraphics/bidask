@@ -19,24 +19,13 @@ function offer(commodity) {
 
 var you = new trader();
 var king = new commodity();
-//var offerInterval = setInterval(addNewOffer, 1000/king.volume)
-
-addNewOffer();
-
-var drag = d3.behavior.drag()
-    .origin(function(d) { return d; })
-    .on("drag", dragmove);
+var offerInterval = setInterval(addNewOffer, 1000/king.volume)
 
 function addNewOffer() {
   var newOffer = new offer(king);
 
   offerTemplate = $("#offer-template").html();
-  //$(_.template(offerTemplate,{d:newOffer})).appendTo("#order-book").on("click", takeOffer);
-  $(_.template(offerTemplate,{d:newOffer})).appendTo("#order-book");
-
-  console.log(d3.selectAll(".draggg"));
-  d3.selectAll(".draggg").data(function() { return {x: 2, y: 2}; });
-  d3.selectAll(".draggg").call(drag);
+  $(_.template(offerTemplate,{d:newOffer})).appendTo("#order-book").on("click", takeOffer);
 
 }
 
@@ -58,19 +47,6 @@ function takeOffer() {
     render();
   }
 }
-
-var radius=20;
-function dragstart() { return true; }
-function dragend() { return true; }
-function dragmove(d) {
-  d3.select(this)
-      .style("left", d.x = Math.max(radius, Math.min(width - radius, d3.event.x))+"px")
-      .style("top", d.y = Math.max(radius, Math.min(height - radius, d3.event.y))+"px");
-}
-/*function dragmove(d) {
-  d3.select(this).attr("left", d3.event.x+"px")
-                 .attr("top", d3.event.y+"px");
-}*/
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // TEMPLATE FUNCTIONS ////////////////////////////////////////////////////////////////////
