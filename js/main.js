@@ -11,10 +11,10 @@ function commodity() {
 }
 
 // bid/ask constructor
-var orderBookDOM = d3.select("#order-book");
+var orderBook = $("#order-book");
 function offer(commodity) {
   this.side = Math.random() < 0.5 ? "bid" : "ask";
-	this.price = d3.random.normal(commodity.priceMean, commodity.priceStdev);
+	this.price = d3.random.normal(commodity.priceMean, commodity.priceStdev)().toFixed(2);
 }
 
 var you = new trader();
@@ -23,32 +23,29 @@ var offerInterval = setInterval(addNewOffer, 1000/king.volume)
 
 function addNewOffer() {
   var newOffer = new offer(king);
-  orderBookDOM.append("div")
-    .text(newOffer.price().toFixed(2))
-    .classed("offer", true)
-    .classed(newOffer.side, true)
-    .on("click", function() {
-      if(d3.select(this).classed("bid")) {
-        if(you.shares > 0) {
-          you.shares--;
-          you.cash += d3.select(this).text()*1;
-          d3.select(this).remove();
-          render();
-        }
-      } else {
-        if(you.cash >= d3.select(this).text()) {
-          you.cash -= d3.select(this).text()*1;
-          you.shares++;
-          d3.select(this).remove();
-          render();
-        }
-      }
-    });
+
+  offerTemplate = $("#offer-template").html();
+  $(_.template(offerTemplate,{d:newOffer})).appendTo("#order-book").on("click", takeOffer);
+
 }
 
 function render() {
   d3.select("#cash").text(you.cash);
   d3.select("#shares").text(you.shares);
+}
+
+function takeOffer() {
+  var offer = $(this);
+  var price = +($(".price", offer).text());
+  var shares = 1;
+  var side = offer.hasClass("bid") ? 1 : -1;
+
+  if(you.shares >= shares*side && you.cash >= price*side*-1) {
+    you.shares += shares*side*-1;
+    you.cash += price*side;
+    offer.remove();
+    render();
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
