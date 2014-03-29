@@ -29,7 +29,11 @@ function addNewOffer() {
   newOfferEl.appendTo("#order-book");
   //newOfferEl.on("click", takeOffer);
   if(newOffer.side == "ask") {
-    newOfferEl.draggable({revert: "invalid"});
+    newOfferEl.draggable({
+      revert: "invalid",
+      opacity: 0.8,
+      snap: ".bid"
+    });
   } else {
     newOfferEl.droppable({
       activeClass: "drop-active",
