@@ -29,8 +29,10 @@ function addNewOffer() {
 
   var newOffer = new offer(king);
   offerTemplate = $("#offer-template").html();
-  $(_.template(offerTemplate,{d:newOffer})).appendTo("#order-book");
-  $(".offer").drags();
+  var appendMe = $(_.template(offerTemplate,{d:newOffer}));
+  appendMe.appendTo("#order-book");
+  appendMe.find(".ask").drags();
+  appendMe.find(".offer").on("mouseenter", function() { $(this).css("border", "1px solid magenta"); });
 
 }
 

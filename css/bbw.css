@@ -232,6 +232,7 @@ button {
 
 .draggable {
   opacity: 0.5;
+  pointer-events: none;
 }
 
 #order-book .offer {
@@ -240,7 +241,6 @@ button {
   float: left;
   position: relative;
   text-align: center;
-  cursor: pointer;
 }
 
 .offer .price-wrapper {
