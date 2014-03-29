@@ -232,7 +232,6 @@ button {
   float: left;
   position: relative;
   text-align: center;
-  cursor: pointer;
 }
 
 .offer .price-wrapper {
@@ -255,17 +254,29 @@ button {
 }
 
 .offer.bid {
-  background: black;
+  background: magenta;
   color: #0f0;
+  z-index: 1;
 }
 .offer.ask {
-  background: white;
+  background: transparent;
   color: #f00;
+  z-index: 2;
 }
 
 .offer.bid .triangle {
   border-bottom-color: white;
 }
 .offer.ask .triangle {
-  border-bottom-color: black;
+  border-bottom-color: #0ff;
+}
+
+.drop-active {
+  background: purple !important;
+}
+.drop-hover {
+  background: blue !important;
+}
+.drop-highlight {
+  background: cyan !important;
 }

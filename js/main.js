@@ -25,8 +25,21 @@ function addNewOffer() {
   var newOffer = new offer(king);
 
   offerTemplate = $("#offer-template").html();
-  $(_.template(offerTemplate,{d:newOffer})).appendTo("#order-book").on("click", takeOffer);
-
+  var newOfferEl = $(_.template(offerTemplate,{d:newOffer}))
+  newOfferEl.appendTo("#order-book");
+  //newOfferEl.on("click", takeOffer);
+  if(newOffer.side == "ask") {
+    newOfferEl.draggable({revert: "invalid"});
+  } else {
+    newOfferEl.droppable({
+      activeClass: "drop-active",
+      hoverClass: "drop-hover",
+      drop: function( event, ui ) {
+        $( this )
+          .addClass( "drop-highlight" )
+      }
+    });
+  }
 }
 
 function render() {
