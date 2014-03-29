@@ -1,5 +1,10 @@
 var dolla = d3.format("$.2f");
 
+var dollaColor = d3.scale.linear()
+  .domain([-1,0,1])
+  .range(["red","black","green"])
+  .clamp(true);
+
 function trader() {
   this.cash = 0;
   this.shares = 0;
@@ -25,6 +30,9 @@ render();
 
 var offerInterval = setInterval(addNewOffer, 1000/king.volume)
 function addNewOffer() {
+  if($("#order-book .offer").length > 50) {
+    return;
+  }
   var newOffer = new offer(king);
 
   offerTemplate = $("#offer-template").html();
@@ -34,13 +42,20 @@ function addNewOffer() {
   if(newOffer.side == "ask") {
     newOfferEl.draggable({
       revert: "invalid",
-      opacity: 0.8,
+      opacity: 1,
       snap: ".bid"
     });
   } else {
     newOfferEl.droppable({
       activeClass: "drop-active",
       hoverClass: "drop-hover",
+      over: function( event, ui ) {
+        var spread = $(this).data("price") - ui.draggable.data("price");
+        ui.draggable.find(".spread").text(dolla(spread)).css("background",dollaColor(spread));
+      },
+      out: function( event, ui ) {
+        ui.draggable.find(".spread").text("");
+      },
       drop: function( event, ui ) {
         $( this )
           .addClass( "drop-highlight" );

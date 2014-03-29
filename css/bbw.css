@@ -232,6 +232,7 @@ button {
   float: left;
   position: relative;
   text-align: center;
+  font-weight: bold;
 }
 
 .offer .price {
@@ -239,6 +240,16 @@ button {
   margin-top: 55px;
   z-index: 2;
 }
+
+.offer .spread {
+  position: absolute;
+  top: 55px;
+  width: 100%;
+  z-index: 3;
+  background: black;
+  color: white;
+}
+
 
 .offer .triangle {
   position: absolute;
@@ -262,6 +273,7 @@ button {
   background: transparent;
   color: #f00;
   z-index: 2;
+  cursor: pointer;
 }
 
 .offer.bid .triangle {
