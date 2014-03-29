@@ -283,12 +283,23 @@ button {
   border-bottom-color: #0ff;
 }
 
-.drop-active {
+.offer.drop-active {
   background: purple !important;
 }
-.drop-hover {
+.offer.drop-hover {
   background: blue !important;
 }
-.drop-highlight {
+.offer.drop-highlight {
   background: cyan !important;
+}
+
+.stock {
+  width: 100%;
+  height: 100px;
+}
+.stock.drop-active {
+  border: 5px dotted black;
+}
+.stock.drop-hover {
+  border: 5px solid black;
 }

@@ -13,7 +13,7 @@ function trader() {
 
 function commodity() {
   this.priceMean = 19.02;
-  this.priceStdev = 2;
+  this.priceStdev = 4;
   this.volume = 2; //offers per second
 }
 
@@ -22,11 +22,20 @@ var orderBook = $("#order-book");
 function offer(commodity) {
   this.side = Math.random() < 0.5 ? "bid" : "ask";
 	this.price = d3.random.normal(commodity.priceMean, commodity.priceStdev)().toFixed(2);
+  this.owner = "market";
 }
 
 var you = new trader();
 var king = new commodity();
 render();
+
+$("#you .stock").droppable({
+  activeClass: "drop-active",
+  hoverClass: "drop-hover",
+  drop: function(event, ui) {
+    takeOffer(ui.draggable);
+  }
+});
 
 var offerInterval = setInterval(addNewOffer, 1000/king.volume)
 function addNewOffer() {
@@ -36,14 +45,15 @@ function addNewOffer() {
   var newOffer = new offer(king);
 
   offerTemplate = $("#offer-template").html();
-  var newOfferEl = $(_.template(offerTemplate,{d:newOffer}))
+  var newOfferEl = $(_.template(offerTemplate,{offer:newOffer}))
   newOfferEl.appendTo("#order-book");
   //newOfferEl.on("click", takeOffer);
   if(newOffer.side == "ask") {
     newOfferEl.draggable({
       revert: "invalid",
       opacity: 1,
-      snap: ".bid"
+      snap: ".ui-droppable",
+      snapMode: "inner"
     });
   } else {
     newOfferEl.droppable({
@@ -62,6 +72,8 @@ function addNewOffer() {
 
         takeOffer(ui.draggable);
         takeOffer($(this));
+        ui.draggable.draggable("disable");
+        $(this).droppable("destroy");
       }
     });
   }
@@ -76,15 +88,23 @@ function render() {
 }
 
 function takeOffer(offer) {
-  var price = +(offer.data("price"));
-  var shares = 1;
-  var side = offer.hasClass("bid") ? 1 : -1;
+  if(offer.data("owner") == "you") {
+    return null;
+  } else {
+    var price = +(offer.data("price"));
+    var shares = 1;
+    var side = offer.hasClass("bid") ? 1 : -1;
 
-  if(you.shares >= shares*side && (you.cash >= price*side*-1 || you.creditScore > 300)) {
-    you.shares += shares*side*-1;
-    you.cash += price*side;
-    offer.hide("slow");
-    render();
+    if(you.shares >= shares*side && (you.cash >= price*side*-1 || you.creditScore > 300)) {
+      offer.data("owner", "you");
+      you.shares += shares*side*-1;
+      you.cash += price*side;
+      //offer.hide("slow");
+      render();
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

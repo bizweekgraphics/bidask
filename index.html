@@ -49,6 +49,7 @@ font-family:BWHaasRegular
   <p class="dek">This is dek, different from the dek you are at now. I am typing the sound of my dek and I repeating and repeating the dek dek dek TK sound of my speaking voice.</p>
 
   <div id="you" data-cash="0" data-shares="0">
+    <div class="stock">Drag shares here to buy.</div>
     <h4><span style="font-family:BWHaasHead">Cash</span> <span class="cash">$0</span></h4>
     <h4><span style="font-family:BWHaasHead">Shares</span> <span class="shares">0</span></h4>
   </div>
@@ -59,9 +60,9 @@ font-family:BWHaasRegular
   <div class="data-credit">Graphic by Bloomberg Businessweek. Data: compiled by Bloomberg</div>
 
   <script type="text/x-underscore" id="offer-template">
-  <div class="offer <%= d.side %>" data-price="<%= d.price %>">
+  <div class="offer <%= offer.side %>" data-price="<%= offer.price %>" data-owner="<%= offer.owner %>">
     <div class="triangle"></div>
-    <div class="price"><%= dolla(d.price) %></span></div>
+    <div class="price"><%= dolla(offer.price) %></span></div>
     <div class="spread"></div>
   </div>
   </script>
