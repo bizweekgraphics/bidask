@@ -48,9 +48,9 @@ font-family:BWHaasRegular
   <h3 class="hed">Bid/Ask Saga</h3>
   <p class="dek">This is dek, different from the dek you are at now. I am typing the sound of my dek and I repeating and repeating the dek dek dek TK sound of my speaking voice.</p>
 
-  <div id="inventory">
-    <h4><span style="font-family:BWHaasHead">Cash</span> $<span id="cash">100</span></h4>
-    <h4><span style="font-family:BWHaasHead">Shares</span> <span id="shares">0</span></h4>
+  <div id="you" data-cash="0" data-shares="0">
+    <h4><span style="font-family:BWHaasHead">Cash</span> <span class="cash">$0</span></h4>
+    <h4><span style="font-family:BWHaasHead">Shares</span> <span class="shares">0</span></h4>
   </div>
 
   <div id="order-book">
@@ -59,9 +59,9 @@ font-family:BWHaasRegular
   <div class="data-credit">Graphic by Bloomberg Businessweek. Data: compiled by Bloomberg</div>
 
   <script type="text/x-underscore" id="offer-template">
-  <div class="offer <%= d.side %>">
+  <div class="offer <%= d.side %>" data-price="<%= d.price %>">
     <div class="triangle"></div>
-    <div class="price-wrapper">$<span class="price"><%= d.price %></span></div>
+    <div class="price"><%= dolla(d.price) %></span></div>
   </div>
   </script>
 

@@ -234,7 +234,7 @@ button {
   text-align: center;
 }
 
-.offer .price-wrapper {
+.offer .price {
   position: relative;
   margin-top: 55px;
   z-index: 2;

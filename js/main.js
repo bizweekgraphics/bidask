@@ -1,7 +1,9 @@
+var dolla = d3.format("$.2f");
 
 function trader() {
-  this.cash = 100;
+  this.cash = 0;
   this.shares = 0;
+  this.creditScore = 850;
 }
 
 function commodity() {
@@ -19,8 +21,9 @@ function offer(commodity) {
 
 var you = new trader();
 var king = new commodity();
-var offerInterval = setInterval(addNewOffer, 1000/king.volume)
+render();
 
+var offerInterval = setInterval(addNewOffer, 1000/king.volume)
 function addNewOffer() {
   var newOffer = new offer(king);
 
@@ -40,27 +43,32 @@ function addNewOffer() {
       hoverClass: "drop-hover",
       drop: function( event, ui ) {
         $( this )
-          .addClass( "drop-highlight" )
+          .addClass( "drop-highlight" );
+
+        takeOffer(ui.draggable);
+        takeOffer($(this));
       }
     });
   }
 }
 
 function render() {
-  d3.select("#cash").text(you.cash);
-  d3.select("#shares").text(you.shares);
+  var youEl = $("#you");
+  youEl.data("cash", you.cash);
+  youEl.data("shares", you.shares);
+  youEl.find(".cash").text(dolla(you.cash));
+  youEl.find(".shares").text(you.shares);
 }
 
-function takeOffer() {
-  var offer = $(this);
-  var price = +($(".price", offer).text());
+function takeOffer(offer) {
+  var price = +(offer.data("price"));
   var shares = 1;
   var side = offer.hasClass("bid") ? 1 : -1;
 
-  if(you.shares >= shares*side && you.cash >= price*side*-1) {
+  if(you.shares >= shares*side && (you.cash >= price*side*-1 || you.creditScore > 300)) {
     you.shares += shares*side*-1;
     you.cash += price*side;
-    offer.remove();
+    offer.hide("slow");
     render();
   }
 }
