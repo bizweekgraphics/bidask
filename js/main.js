@@ -37,6 +37,7 @@ $("#you .stock").droppable({
   hoverClass: "drop-hover",
   drop: function(event, ui) {
     takeOffer(ui.draggable);
+    // $("#you .stock").append(ui.draggable.detach());
   }
 });
 
