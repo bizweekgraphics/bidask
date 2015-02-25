@@ -19,36 +19,25 @@
   <script src="js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 
-<!--
-Body classes:
-.iframed    // no interface wrapping, no margins
-.dark_layout  // like bbw video site
-.half      // half-width of standard article (315px)
-.full      // full-width of standard article (630px)
-.wide      // wide interactive feature layout (970px)
-
-Fonts:
-font-family:BloombergLBold    // corporate wordmark logotype
-font-family:BWHaasHead
-font-family:BWHaasHead75Bold
-font-family:BWHaasRegular
--->
-
 <body>
 
-  <h1 class="hed">Bid/Ask Saga</h1>
+  <h1 class="hed" style="float:left;width:50%;">Bid/Ask Saga</h1>
+
+  <div id="price-history" style="float:right;width:50%;"></div>
+
+  <div style="clear:both;"></div>
 
   <div id="you" data-cash="0" data-shares="0">
     <div class="stock">Drag shares here to buy.</div>
-    <h4><span style="font-family:BWHaasHead">Cash</span> <span class="cash">$0</span></h4>
-    <h4><span style="font-family:BWHaasHead">Shares</span> <span class="shares">0</span></h4>
+    <h4>Cash: <span class="cash">$0</span></h4>
+    <h4>Shares: <span class="shares">0</span></h4>
   </div>
 
   <div id="order-book">
   </div>
 
   <script type="text/x-underscore" id="offer-template">
-  <div class="offer <%= offer.side %>" data-price="<%= offer.price %>" data-owner="<%= offer.owner %>">
+  <div class="offer valid <%= offer.side %>" data-price="<%= offer.price %>" data-owner="<%= offer.owner %>">
     <div class="triangle"></div>
     <div class="price"><%= dolla(offer.price) %></span></div>
     <div class="spread"></div>
@@ -62,6 +51,7 @@ font-family:BWHaasRegular
   <script src="js/vendor/jquery-ui-1.10.4.custom.js"></script>
   <script src="js/vendor/jquery.ui.touch-punch.js"></script>
   <script src="js/plugins.js"></script>
+  <script src="js/charts.js"></script>
   <script src="js/main.js"></script>
 
 </body>

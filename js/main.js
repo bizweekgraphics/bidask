@@ -1,3 +1,6 @@
+var priceHistory = [];
+var priceHistoryChart = timeSeriesChart();
+
 var dolla = d3.format("$.2f");
 
 var dollaColor = d3.scale.linear()
@@ -14,7 +17,7 @@ function trader() {
 function commodity() {
   this.priceMean = 19.02;
   this.priceStdev = 4;
-  this.volume = 2; //offers per second
+  this.volume = .3; //offers per second
 }
 
 // bid/ask constructor
@@ -37,11 +40,30 @@ $("#you .stock").droppable({
   }
 });
 
-var offerInterval = setInterval(addNewOffer, 1000/king.volume)
+function addNewOfferTimeout() {
+  var nextOfferTimeout = d3.random.normal(1000/king.volume, 500)();
+  var offerInterval = setTimeout(function() {
+    addNewOffer();
+    addNewOfferTimeout();
+  }, nextOfferTimeout);
+}
+addNewOfferTimeout();
+
+function cancelOfferTimeout() {
+  var nextCancelTimeout = d3.random.normal(1100/king.volume, 500)();
+  var cancelInterval = setTimeout(function() {
+    cancelOffer();
+    cancelOfferTimeout();
+  }, nextCancelTimeout);
+}
+cancelOfferTimeout();
+
+function cancelOffer() {
+  var offers = $("#order-book .offer.valid")
+  offers.eq(Math.floor(Math.random() * offers.length)).hide("slow");
+}
+
 function addNewOffer() {
-  if($("#order-book .offer").length > 50) {
-    return;
-  }
   var newOffer = new offer(king);
 
   offerTemplate = $("#offer-template").html();
@@ -74,9 +96,16 @@ function addNewOffer() {
         takeOffer($(this));
         ui.draggable.draggable("disable");
         $(this).droppable("destroy");
+
+        $(ui.draggable).hide("slow").removeClass("valid");
+        $(this).hide("slow").removeClass("valid");
       }
     });
   }
+}
+
+for(var i=0; i<20; i++) {
+  addNewOffer();
 }
 
 function render() {
@@ -88,6 +117,14 @@ function render() {
 }
 
 function takeOffer(offer) {
+
+  priceHistory.push([
+    new Date(),
+    offer.data("price")
+  ]);
+
+  d3.select("#price-history").datum(priceHistory).call(priceHistoryChart);
+
   if(offer.data("owner") == "you") {
     return null;
   } else {
