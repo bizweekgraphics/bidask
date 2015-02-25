@@ -1,5 +1,5 @@
 var priceHistory = [];
-var priceHistoryChart = timeSeriesChart();
+var priceHistoryChart = timeSeriesChart().height(75).width($(document).width()/2);
 
 var dolla = d3.format("$.2f");
 
@@ -32,12 +32,18 @@ var you = new trader();
 var king = new commodity();
 render();
 
+setInterval(function() {
+  king.volume *= 1.1;
+  king.priceMean *= 1.05 + d3.random.normal(0, .2)();
+  console.log(king.priceMean);
+}, 5000);
+
 $("#you .stock").droppable({
   activeClass: "drop-active",
   hoverClass: "drop-hover",
   drop: function(event, ui) {
     takeOffer(ui.draggable);
-    // $("#you .stock").append(ui.draggable.detach());
+    $("#you .stock").append(ui.draggable.detach().css({'top': 0, 'left': 0}));
   }
 });
 
@@ -61,7 +67,15 @@ cancelOfferTimeout();
 
 function cancelOffer() {
   var offers = $("#order-book .offer.valid")
-  offers.eq(Math.floor(Math.random() * offers.length)).hide("slow");
+  var canceledOffer = offers.eq(Math.floor(Math.random() * offers.length));
+
+  priceHistory.push([
+    new Date(),
+    canceledOffer.data("price")
+    ]);
+  d3.select("#price-history").datum(priceHistory).call(priceHistoryChart);
+
+  canceledOffer.hide("slow")
 }
 
 function addNewOffer() {
@@ -123,7 +137,6 @@ function takeOffer(offer) {
     new Date(),
     offer.data("price")
   ]);
-
   d3.select("#price-history").datum(priceHistory).call(priceHistoryChart);
 
   if(offer.data("owner") == "you") {

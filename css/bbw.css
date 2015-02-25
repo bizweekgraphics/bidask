@@ -208,7 +208,7 @@ button {
    ----------- BID/ASK -----------
    ------------------------------- */
 
-#order-book .offer {
+.offer {
   width: 100px;
   height: 100px;
   float: left;
@@ -279,12 +279,13 @@ button {
   width: 100%;
   height: 100px;
   box-sizing: border-box;
+  border: 2px dotted lightgray;
 }
 .stock.drop-active {
-  border: 5px dotted black;
+  border: 2px dotted black;
 }
 .stock.drop-hover {
-  border: 5px solid black;
+  border: 2px solid black;
 }
 
 /* CHART */
